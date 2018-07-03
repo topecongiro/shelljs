@@ -56,6 +56,7 @@ test.skip('cmd exits gracefully if we cannot find the execPath', t => {
 // sync
 //
 
+// TODO(nfischer): cannot execute shx on windows.
 test('check if stdout goes to output', t => {
   const result = shell.cmd('shx', 'echo', 'this is stdout');
   t.falsy(shell.error());
@@ -101,12 +102,13 @@ test('no need to escape quotes', t => {
   t.is(result.stdout, "'+'_'+'\n");
 });
 
+// TODO(nfischer): cannot execute shx on windows.
 test('does not expand shell-style variables', t => {
   shell.env.FOO = 'Hello world';
   const result = shell.cmd('shx', 'echo', '$FOO');
   t.falsy(shell.error());
   t.is(result.code, 0);
-  t.is(result.stdout, `$FOO${os.EOL}`);
+  t.is(result.stdout, '$FOO\n');
 });
 
 test('supports globbing by default', t => {
@@ -120,7 +122,7 @@ test('supports globbing by default', t => {
     'test/resources/file1.txt',
     'test/resources/file2.txt',
   ];
-  t.is(result.stdout, `${expectedFiles.join(' ')}${os.EOL}`);
+  t.is(result.stdout, `${expectedFiles.join(' ')}\n`);
 });
 
 test('globbing respects config.noglob', t => {
@@ -128,22 +130,22 @@ test('globbing respects config.noglob', t => {
   const result = shell.cmd('echo', 'test/resources/*.txt');
   t.falsy(shell.error());
   t.is(result.code, 0);
-  t.is(result.stdout, `test/resources/*.txt${os.EOL}`);
+  t.is(result.stdout, 'test/resources/*.txt\n');
 });
 
+// TODO(nfischer): cannot execute shx on windows.
 test('set cwd', t => {
-  const cmdString = process.platform === 'win32' ? 'cd' : 'pwd';
-  const result = shell.cmd(cmdString, { cwd: '..' });
+  const result = shell.cmd('shx', 'pwd', { cwd: '..' });
   t.falsy(shell.error());
   t.is(result.code, 0);
-  t.is(result.stdout, path.resolve('..') + os.EOL);
+  t.is(result.stdout, path.resolve('..') + '\n');
 });
 
 test('set maxBuffer (very small)', t => {
   const result = shell.cmd('echo', '1234567890'); // default maxBuffer is ok
   t.falsy(shell.error());
   t.is(result.code, 0);
-  t.is(result.stdout, `1234567890${os.EOL}`);
+  t.is(result.stdout, '1234567890\n');
   shell.cmd('echo', '1234567890', { maxBuffer: 6 });
   t.truthy(shell.error());
 });
@@ -163,7 +165,7 @@ test('check process.env works', t => {
     shell.cmd(shell.config.execPath, '-p', 'process.env.FOO');
   t.falsy(shell.error());
   t.is(result.code, 0);
-  t.is(result.stdout, `Hello world${os.EOL}`);
+  t.is(result.stdout, 'Hello world\n');
   t.is(result.stderr, '');
 });
 
