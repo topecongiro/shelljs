@@ -9,9 +9,11 @@ import shell from '..';
 require('../src/cmd');
 
 const CWD = process.cwd();
+const PATH_TO_LOCAL_BIN = path.join(__dirname, '..', 'node_modules', '.bin');
 
 test.beforeEach(() => {
   process.chdir(CWD);
+  process.env.PATH += (path.delimiter + PATH_TO_LOCAL_BIN);
   shell.config.resetForTesting();
 });
 
