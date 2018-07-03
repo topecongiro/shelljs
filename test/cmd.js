@@ -1,4 +1,3 @@
-import os from 'os';
 import path from 'path';
 
 import test from 'ava';
@@ -102,13 +101,32 @@ test('no need to escape quotes', t => {
   t.is(result.stdout, "'+'_'+'\n");
 });
 
-// TODO(nfischer): cannot execute shx on windows.
 test('does not expand shell-style variables', t => {
   shell.env.FOO = 'Hello world';
-  const result = shell.cmd('shx', 'echo', '$FOO');
+  const result = shell.cmd('echo', '$FOO');
   t.falsy(shell.error());
   t.is(result.code, 0);
   t.is(result.stdout, '$FOO\n');
+});
+
+test('does not expand windows-style variables', t => {
+  shell.env.FOO = 'Hello world';
+  let result = shell.cmd('echo', '%FOO%');
+  t.falsy(shell.error());
+  t.is(result.code, 0);
+  t.is(result.stdout, '%FOO%\n');
+  result = shell.cmd('echo', '!FOO!');
+  t.falsy(shell.error());
+  t.is(result.code, 0);
+  t.is(result.stdout, '!FOO!\n');
+});
+
+test('cannot inject multiple commands', t => {
+  const injection = '; echo there';
+  const result = shell.cmd('echo', `hi${injection}`);
+  t.falsy(shell.error());
+  t.is(result.code, 0);
+  t.is(result.stdout, `hi${injection}\n`);
 });
 
 test('supports globbing by default', t => {
