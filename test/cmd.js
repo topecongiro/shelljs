@@ -122,7 +122,7 @@ test('does not expand windows-style variables', t => {
 });
 
 test('cannot inject multiple commands', t => {
-  const injection = '; echo there';
+  const injection = '; echo semicolon && echo and || echo or';
   const result = shell.cmd('echo', `hi${injection}`);
   t.falsy(shell.error());
   t.is(result.code, 0);
