@@ -42,7 +42,8 @@ function _cmd(options, command, commandArgs, userOptions) {
     shell: false,
   };
 
-  spawnOptions = Object.assign(defaultOptions, userOptions, requiredOptions);
+  var spawnOptions =
+    Object.assign(defaultOptions, userOptions, requiredOptions);
 
   if (spawnOptions.encoding === 'buffer') {
     // A workaround for node v5 and early versions of v4 and v6.
