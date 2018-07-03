@@ -11,19 +11,19 @@ common.register('cmd', _cmd, {
   wrapOutput: true,
 });
 
-function _cmd(options, command, commandArgs, spawnOptions) {
+function _cmd(options, command, commandArgs, userOptions) {
   // `options` will usually no have a value: it's added by our commandline flag
   // parsing engine.
   commandArgs = [].slice.call(arguments, 2);
 
-  // `spawnOptions` may or may not be provided. We need to check the last
+  // `userOptions` may or may not be provided. We need to check the last
   // argument. If it's an object, assume it's meant to be passed as
-  // spawnOptions (since ShellStrings are already flattened to strings).
+  // userOptions (since ShellStrings are already flattened to strings).
   var lastArg = commandArgs.pop();
   if (common.isObject(lastArg)) {
-    spawnOptions = lastArg;
+    userOptions = lastArg;
   } else {
-    spawnOptions = {};
+    userOptions = {};
     commandArgs.push(lastArg);
   }
 
@@ -42,7 +42,12 @@ function _cmd(options, command, commandArgs, spawnOptions) {
     shell: false,
   };
 
-  spawnOptions = Object.assign(defaultOptions, spawnOptions, requiredOptions);
+  spawnOptions = Object.assign(defaultOptions, userOptions, requiredOptions);
+
+  if (spawnOptions.encoding === 'buffer') {
+    // A workaround for node v5 and early versions of v4 and v6.
+    delete spawnOptions.encoding;
+  }
 
   if (!command) {
     common.error('Must specify a non-empty string as a command');
@@ -60,7 +65,7 @@ function _cmd(options, command, commandArgs, spawnOptions) {
     stderr = 'Unable to spawn your process (received ' + result.error.errno + ')';
     code = UNABLE_TO_SPAWN_ERROR_CODE;
   } else {
-    if (spawnOptions.encoding) {
+    if (userOptions.encoding) {
       stdout = result.stdout;
       stderr = result.stderr;
     } else { // default to string
