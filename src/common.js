@@ -369,11 +369,12 @@ function wrap(cmd, fn, options) {
           return arg;
         });
 
-        // Perform glob-expansion on all arguments after globStart, but preserve
-        // the arguments before it (like regexes for sed and grep)
-        if (!config.noglob && options.allowGlobbing === true) {
-          args = args.slice(0, options.globStart).concat(expand(args.slice(options.globStart)));
-        }
+        // TODO(nfischer): do not submit this!
+        // // Perform glob-expansion on all arguments after globStart, but preserve
+        // // the arguments before it (like regexes for sed and grep)
+        // if (!config.noglob && options.allowGlobbing === true) {
+        //   args = args.slice(0, options.globStart).concat(expand(args.slice(options.globStart)));
+        // }
 
         try {
           // parse options if options are provided
