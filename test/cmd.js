@@ -145,7 +145,7 @@ test('supports globbing by default', t => {
   t.is(result.stdout, `${expectedFiles.join(' ')}\n`);
 });
 
-test('globbing respects config.noglob', t => {
+test.only('globbing respects config.noglob', t => {
   shell.config.noglob = true;
   const result = shell.cmd('echo', 'test/resources/*.txt');
   t.falsy(shell.error());
