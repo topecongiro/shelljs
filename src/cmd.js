@@ -19,12 +19,16 @@ function _cmd(options, command, commandArgs, userOptions) {
   // `userOptions` may or may not be provided. We need to check the last
   // argument. If it's an object, assume it's meant to be passed as
   // userOptions (since ShellStrings are already flattened to strings).
-  var lastArg = commandArgs.pop();
-  if (common.isObject(lastArg)) {
-    userOptions = lastArg;
-  } else {
+  if (commandArgs.length === 0) {
     userOptions = {};
-    commandArgs.push(lastArg);
+  } else {
+    var lastArg = commandArgs.pop();
+    if (common.isObject(lastArg)) {
+      userOptions = lastArg;
+    } else {
+      userOptions = {};
+      commandArgs.push(lastArg);
+    }
   }
 
   var pipe = common.readFromPipe();
