@@ -12,7 +12,7 @@ common.register('cmd', _cmd, {
 });
 
 function _cmd(options, command, commandArgs, userOptions) {
-  // `options` will usually no have a value: it's added by our commandline flag
+  // `options` will usually not have a value: it's added by our commandline flag
   // parsing engine.
   commandArgs = [].slice.call(arguments, 2);
 

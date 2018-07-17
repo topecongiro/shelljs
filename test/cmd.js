@@ -9,11 +9,9 @@ import shell from '..';
 require('../src/cmd');
 
 const CWD = process.cwd();
-const PATH_TO_LOCAL_BIN = path.join(__dirname, '..', 'node_modules', '.bin');
 
 test.beforeEach(() => {
   process.chdir(CWD);
-  process.env.PATH += (path.delimiter + PATH_TO_LOCAL_BIN);
   shell.config.resetForTesting();
 });
 
@@ -101,6 +99,17 @@ test('no need to escape quotes', t => {
   t.falsy(shell.error());
   t.is(result.code, 0);
   t.is(result.stdout, "'+'_'+'\n");
+});
+
+test('commands can contain newlines', t => {
+  // Github issue #175
+  const result = shell.cmd(shell.config.execPath, '-e', `
+console.log('line1')
+console.log('line2')
+`);
+  t.falsy(shell.error());
+  t.is(result.code, 0);
+  t.is(result.stdout, "line1\nline2\n");
 });
 
 test('does not expand shell-style variables', t => {
