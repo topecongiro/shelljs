@@ -109,7 +109,7 @@ console.log('line2')
 `);
   t.falsy(shell.error());
   t.is(result.code, 0);
-  t.is(result.stdout, "line1\nline2\n");
+  t.is(result.stdout, 'line1\nline2\n');
 });
 
 test('does not expand shell-style variables', t => {
