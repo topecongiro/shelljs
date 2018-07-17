@@ -1,5 +1,6 @@
 var common = require('./common');
 var child = require('child_process');
+var puka = require('puka');
 
 var DEFAULT_MAXBUFFER_SIZE = 20 * 1024 * 1024;
 var UNABLE_TO_SPAWN_ERROR_CODE = 127;
@@ -10,6 +11,17 @@ common.register('cmd', _cmd, {
   canReceivePipe: true,
   wrapOutput: true,
 });
+
+function windowsSpawnWrapper(command, commandArgs, spawnOptions) {
+  var escapedCommand = puka.quoteForShell(command);
+  var escapedCommandArgs = commandArgs.map(function (arg) {
+    return puka.quoteForShell(arg);
+  });
+  var newSpawnOptions = Object.assign({}, spawnOptions);
+  newSpawnOptions.shell = true;
+  var ret = child.spawnSync(escapedCommand, escapedCommandArgs, newSpawnOptions);
+  return ret;
+}
 
 function _cmd(options, command, commandArgs, userOptions) {
   // `options` will usually not have a value: it's added by our commandline flag
@@ -57,9 +69,13 @@ function _cmd(options, command, commandArgs, userOptions) {
   if (!command) {
     common.error('Must specify a non-empty string as a command');
   }
-  // console.warn(command, commandArgs);
 
-  var result = child.spawnSync(command, commandArgs, spawnOptions);
+  var result;
+  if (true) {
+    result = windowsSpawnWrapper(command, commandArgs, spawnOptions);
+  } else {
+    result = child.spawnSync(command, commandArgs, spawnOptions);
+  }
   var stdout;
   var stderr;
   var code;
