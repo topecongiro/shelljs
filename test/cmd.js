@@ -56,7 +56,7 @@ test.skip('cmd exits gracefully if we cannot find the execPath', t => {
 //
 
 // TODO(nfischer): cannot execute shx on windows.
-test('check if stdout goes to output', t => {
+test.skip('check if stdout goes to output', t => {
   const result = shell.cmd('shx', 'echo', 'this is stdout');
   t.falsy(shell.error());
   t.is(result.code, 0);
@@ -154,7 +154,7 @@ test('supports globbing by default', t => {
   t.is(result.stdout, `${expectedFiles.join(' ')}\n`);
 });
 
-test('globbing respects config.noglob', t => {
+test.skip('globbing respects config.noglob', t => {
   shell.config.noglob = true;
   const result = shell.cmd('echo', 'test/resources/*.txt');
   t.falsy(shell.error());
@@ -163,7 +163,7 @@ test('globbing respects config.noglob', t => {
 });
 
 // TODO(nfischer): cannot execute shx on windows.
-test('set cwd', t => {
+test.skip('set cwd', t => {
   const result = shell.cmd('shx', 'pwd', { cwd: '..' });
   t.falsy(shell.error());
   t.is(result.code, 0);
