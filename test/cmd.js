@@ -166,21 +166,21 @@ test.only('globbing respects config.noglob', t => {
 
 
   console.warn('----------------------------------------');
-  console.warn(shell.which('rd').toString());
+  console.warn(shell.which('rmdir').toString());
   shell.mkdir('debugWindows');
   shell.cd('debugWindows');
 
   shell.mkdir('adir');
   shell.mkdir('bdir');
   console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.exec('rd /s /q adir');
+  shell.exec('rmdir /s /q adir');
   console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
   shell.rm('-r', '*dir');
 
   shell.mkdir('adir');
   shell.mkdir('bdir');
   console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.cmd('rd', '/s', '/q', 'adir');
+  shell.cmd('rmdir', '/s', '/q', 'adir');
   console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
   shell.rm('-r', '*dir');
 });
