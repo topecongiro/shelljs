@@ -140,7 +140,7 @@ test('cannot inject multiple commands', t => {
   t.is(result.stdout, `hi${injection}\n`);
 });
 
-test.only('supports globbing by default', t => {
+test('supports globbing by default', t => {
   // `echo` on windows will not glob, so it depends on shell.cmd() to expand the
   // glob before spawning the subprocess.
   const result = shell.cmd('echo', 'test/resources/*.txt');

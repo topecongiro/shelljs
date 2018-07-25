@@ -1,11 +1,8 @@
-var child = require('child_process');
-
 var common = require('./common');
-var which = require('./which')._which;
+var child = require('child_process');
 
 var DEFAULT_MAXBUFFER_SIZE = 20 * 1024 * 1024;
 var UNABLE_TO_SPAWN_ERROR_CODE = 127;
-var WINDOWS_NO_GLOB_ARGUMENT = '--%';
 
 common.register('cmd', _cmd, {
   cmdOptions: null,
@@ -13,28 +10,6 @@ common.register('cmd', _cmd, {
   canReceivePipe: true,
   wrapOutput: true,
 });
-
-function isWindowsShellScript(command) {
-  var fullPath = which({}, command);
-  var commandExtension = path.extname(fullPath);
-  return (commandExtension === '.bat' || commandExtension === '.cmd');
-}
-
-function spawnWrapper(command, commandArgs, spawnOptions) {
-  if (process.platform !== 'win32') {
-    return child.spawnSync(command, commandArgs, spawnOptions);
-  } else if (!isWindowsShellScript(command)) {
-    commandArgs.unshift(WINDOWS_NO_GLOB_ARGUMENT);
-    return child.spawnSync(command, commandArgs, spawnOptions);
-  } else {
-    commandArgs.unshift(WINDOWS_NO_GLOB_ARGUMENT);
-    spawnOptions = Object.assign(spawnOptions, {
-      shell: true,
-      windowsVerbatimArguments: false,
-    });
-    return child.spawnSync(command, commandArgs, spawnOptions);
-  }
-}
 
 function _cmd(options, command, commandArgs, userOptions) {
   // `options` will usually not have a value: it's added by our commandline flag
@@ -84,7 +59,7 @@ function _cmd(options, command, commandArgs, userOptions) {
   }
   // console.warn(command, commandArgs);
 
-  var result = spawnWrapper(command, commandArgs, spawnOptions);
+  var result = child.spawnSync(command, commandArgs, spawnOptions);
   var stdout;
   var stderr;
   var code;
