@@ -166,23 +166,31 @@ test.only('globbing respects config.noglob', t => {
 
 
   console.warn('----------------------------------------');
-  console.warn(shell.which('rmdir').toString());
-  shell.mkdir('debugWindows');
-  shell.cd('debugWindows');
+  console.warn('' + shell.which('rmdir'));
+  console.warn('' + shell.which('rd'));
+  console.warn('' + shell.which('echo'));
+  console.warn('' + shell.which('del'));
+  console.warn('' + shell.which('cd'));
+  console.warn('' + shell.which('git'));
+  console.warn('' + shell.which('node'));
+  console.warn('' + shell.which('mkdir'));
+  console.warn('' + shell.which('npm'));
+  // shell.mkdir('debugWindows');
+  // shell.cd('debugWindows');
 
-  shell.mkdir('adir');
-  shell.mkdir('bdir');
-  console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.exec('rmdir /s /q *dir');
-  console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.rm('-r', '*dir');
+  // shell.mkdir('adir');
+  // shell.mkdir('bdir');
+  // console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
+  // shell.exec('rmdir /s /q *dir');
+  // console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
+  // shell.rm('-r', '*dir');
 
-  shell.mkdir('adir');
-  shell.mkdir('bdir');
-  console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.cmd('rmdir', '/s', '/q', '*dir');
-  console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.rm('-r', '*dir');
+  // shell.mkdir('adir');
+  // shell.mkdir('bdir');
+  // console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
+  // shell.cmd('rmdir', '/s', '/q', '*dir');
+  // console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
+  // shell.rm('-r', '*dir');
 });
 
 // TODO(nfischer): cannot execute shx on windows.
