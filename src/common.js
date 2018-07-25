@@ -371,13 +371,7 @@ function wrap(cmd, fn, options) {
 
         // Perform glob-expansion on all arguments after globStart, but preserve
         // the arguments before it (like regexes for sed and grep)
-        if (config.noglob) {
-          console.warn('I should not glob');
-        } else {
-          console.warn('I will glob');
-        }
         if (!config.noglob && options.allowGlobbing === true) {
-          console.warn('I am currently globbing');
           args = args.slice(0, options.globStart).concat(expand(args.slice(options.globStart)));
         }
 

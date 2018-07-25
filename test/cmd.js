@@ -158,9 +158,30 @@ test.only('globbing respects config.noglob', t => {
   shell.config.noglob = true;
   const execResult = shell.exec('echo test/resources/*.txt');
   console.warn('exec:' + execResult.stdout);
+  // const execResult = child_process.exec('echo test/resources/*.txt');
+  // console.warn('exec:' + execResult.stdout);
   const cmdResult = shell.cmd('echo', 'test/resources/*.txt');
   console.warn(' cmd:' + cmdResult.stdout);
   t.is(1, 1);
+
+
+  console.warn('----------------------------------------');
+  shell.mkdir('debugWindows');
+  shell.cd('debugWindows');
+
+  shell.mkdir('a.txt');
+  shell.mkdir('*.txt');
+  console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
+  shell.exec('rd /s /q *');
+  console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
+  shell.rm('-r', '*');
+
+  shell.mkdir('a.txt');
+  shell.mkdir('*.txt');
+  console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
+  shell.cmd('rd', '/s', '/q', '*');
+  console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
+  shell.rm('-r', '*');
 });
 
 // TODO(nfischer): cannot execute shx on windows.
