@@ -166,6 +166,7 @@ test.only('globbing respects config.noglob', t => {
 
 
   console.warn('----------------------------------------');
+  console.warn(shell.which('rd').toString());
   shell.mkdir('debugWindows');
   shell.cd('debugWindows');
 
