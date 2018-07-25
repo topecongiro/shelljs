@@ -172,14 +172,14 @@ test.only('globbing respects config.noglob', t => {
   shell.mkdir('adir');
   shell.mkdir('bdir');
   console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.exec('rd /s /q *');
+  shell.exec('rd /s /q adir');
   console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
   shell.rm('-r', '*dir');
 
   shell.mkdir('adir');
   shell.mkdir('bdir');
   console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.cmd('rd', '/s', '/q', '*');
+  shell.cmd('rd', '/s', '/q', 'adir');
   console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
   shell.rm('-r', '*dir');
 });
