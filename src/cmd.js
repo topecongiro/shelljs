@@ -1,8 +1,7 @@
 var child = require('child_process');
-var path = require('path');
 
 var common = require('./common');
-var which = require('./which');
+var which = require('./which')._which;
 
 var DEFAULT_MAXBUFFER_SIZE = 20 * 1024 * 1024;
 var UNABLE_TO_SPAWN_ERROR_CODE = 127;
