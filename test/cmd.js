@@ -166,15 +166,22 @@ test.only('globbing respects config.noglob', t => {
 
 
   console.warn('----------------------------------------');
-  console.warn('' + shell.which('rmdir'));
-  console.warn('' + shell.which('rd'));
-  console.warn('' + shell.which('echo'));
-  console.warn('' + shell.which('del'));
-  console.warn('' + shell.which('cd'));
-  console.warn('' + shell.which('git'));
-  console.warn('' + shell.which('node'));
-  console.warn('' + shell.which('mkdir'));
-  console.warn('' + shell.which('npm'));
+  console.warn('node: '     + shell.which('node'));
+  console.warn('copy: '     + shell.which('copy'));
+  console.warn('dir: '      + shell.which('dir'));
+  console.warn('find: '     + shell.which('find'));
+  console.warn('ipconfig: ' + shell.which('ipconfig'));
+  console.warn('set: '      + shell.which('set'));
+  console.warn('start: '    + shell.which('start'));
+  console.warn('xcopy: '    + shell.which('xcopy'));
+  // console.warn('' + shell.which('git'));   // git
+  // console.warn('' + shell.which('rmdir')); // git
+  // console.warn('' + shell.which('echo'));  // git
+  // console.warn('' + shell.which('mkdir')); // git
+  // console.warn('' + shell.which('rd'));    // null
+  // console.warn('' + shell.which('del'));   // null
+  // console.warn('' + shell.which('cd'));    // null
+  // console.warn('' + shell.which('npm'));   // script file
   // shell.mkdir('debugWindows');
   // shell.cd('debugWindows');
 
