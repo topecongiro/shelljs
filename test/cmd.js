@@ -155,11 +155,8 @@ test('supports globbing by default', t => {
 });
 
 test.only('globbing respects config.noglob', t => {
-  console.warn('ComSpec: ' + shell.env.ComSpec);
-  console.warn(shell.which('cmd.exe'));
-  console.warn(shell.which('cmd'));
   shell.config.noglob = true;
-  const result = shell.cmd('echo', 'test/resources/*.txt');
+  const result = shell.exec('echo test/resources/*.txt');
   t.falsy(shell.error());
   t.is(result.code, 0);
   // TODO(nfischer): ignore this assertion so we can see all Node versions on
