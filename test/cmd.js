@@ -169,19 +169,19 @@ test.only('globbing respects config.noglob', t => {
   shell.mkdir('debugWindows');
   shell.cd('debugWindows');
 
-  shell.mkdir('a.txt');
-  shell.mkdir('*.txt');
+  shell.mkdir('adir');
+  shell.mkdir('bdir');
   console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
   shell.exec('rd /s /q *');
   console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.rm('-r', '*');
+  shell.rm('-r', '*dir');
 
-  shell.mkdir('a.txt');
-  shell.mkdir('*.txt');
+  shell.mkdir('adir');
+  shell.mkdir('bdir');
   console.warn('before: ' + JSON.stringify(shell.ls().map(a => a)));
   shell.cmd('rd', '/s', '/q', '*');
   console.warn('after: ' + JSON.stringify(shell.ls().map(a => a)));
-  shell.rm('-r', '*');
+  shell.rm('-r', '*dir');
 });
 
 // TODO(nfischer): cannot execute shx on windows.
