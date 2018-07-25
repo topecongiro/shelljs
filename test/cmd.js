@@ -156,13 +156,10 @@ test('supports globbing by default', t => {
 
 test.only('globbing respects config.noglob', t => {
   shell.config.noglob = true;
-  const result = shell.exec('echo test/resources/*.txt');
-  t.falsy(shell.error());
-  t.is(result.code, 0);
-  // TODO(nfischer): ignore this assertion so we can see all Node versions on
-  // appveyor.
-  // t.is(result.stdout, 'test/resources/*.txt\n');
-  console.warn(result.stdout);
+  const execResult = shell.exec('echo test/resources/*.txt');
+  console.warn('exec:' + execResult.stdout);
+  const cmdResult = shell.cmd('echo', 'test/resources/*.txt');
+  console.warn(' cmd:' + cmdResult.stdout);
 });
 
 // TODO(nfischer): cannot execute shx on windows.
