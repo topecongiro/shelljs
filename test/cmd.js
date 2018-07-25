@@ -165,6 +165,7 @@ test.only('globbing respects config.noglob', t => {
   // TODO(nfischer): ignore this assertion so we can see all Node versions on
   // appveyor.
   // t.is(result.stdout, 'test/resources/*.txt\n');
+  console.warn(result.stdout);
 });
 
 // TODO(nfischer): cannot execute shx on windows.
