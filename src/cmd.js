@@ -33,6 +33,8 @@ function _cmd(options, command, commandArgs, userOptions) {
 
   var pipe = common.readFromPipe();
 
+  console.warn('args: ' + JSON.stringify(commandArgs));
+
   // Some of our defaults differ from spawnSync's defaults. These can be
   // overridden by the user.
   var defaultOptions = {

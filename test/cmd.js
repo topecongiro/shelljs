@@ -160,6 +160,7 @@ test.only('globbing respects config.noglob', t => {
   console.warn('exec:' + execResult.stdout);
   const cmdResult = shell.cmd('echo', 'test/resources/*.txt');
   console.warn(' cmd:' + cmdResult.stdout);
+  t.is(1, 1);
 });
 
 // TODO(nfischer): cannot execute shx on windows.

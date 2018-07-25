@@ -33,7 +33,6 @@
     "src"
   ],
   "scripts": {
-    "posttest": "npm run lint",
     "test": "nyc --reporter=text --reporter=lcov ava test/cmd.js",
     "test-no-coverage": "ava test/cmd.js",
     "gendocs": "node scripts/generate-docs",
