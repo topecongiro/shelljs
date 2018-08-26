@@ -37,13 +37,21 @@ function _cmd(options, command, commandArgs, userOptions) {
   // overridden by the user.
   var defaultOptions = {
     maxBuffer: DEFAULT_MAXBUFFER_SIZE,
+    // By default, Windows pops up terminal windows to run external programs.
+    // Hide this if possible.
+    windowsHide: true,
   };
 
   // For other options, we forbid the user from overriding them (either for
   // correctness or security).
   var requiredOptions = {
     input: pipe,
-    shell: false,
+    // Necessary so shell.cmd() can run locally-installed "binaries," which npm
+    // actually installs as '.bat' files.
+    shell: process.platform === 'win32',
+    // Ignored on unix. On Windows, ask Node to quote the shell arguments for
+    // security (since we are in fact in a shell).
+    windowsVerbatimArguments: false,
   };
 
   var spawnOptions =
