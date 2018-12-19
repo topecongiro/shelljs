@@ -36,14 +36,23 @@ function _cmd(options, command, commandArgs, userOptions) {
   // Some of our defaults differ from spawnSync's defaults. These can be
   // overridden by the user.
   var defaultOptions = {
+    // We default to a nicer max buffer size.
     maxBuffer: DEFAULT_MAXBUFFER_SIZE,
+    // When possible, hide the pop-ups from the terminals spawnSync() creates.
+    windowsHide: true,
   };
 
   // For other options, we forbid the user from overriding them (either for
   // correctness or security).
   var requiredOptions = {
+    // Support stdin.
     input: pipe,
-    shell: false,
+    // shell is mandatory for Windows, otherwise we can't execute any bat files.
+    // These are particularly important, because this is how npm installs
+    // binaries. See
+    // https://nodejs.org/api/child_process.html#child_process_spawning_bat_and_cmd_files_on_windows.
+    shell: process.platform === 'win32',
+    windowsVerbatimArguments: false,
   };
 
   var spawnOptions =
