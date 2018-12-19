@@ -6,14 +6,20 @@ import test from 'ava';
 
 import shell from '..';
 import utils from './utils/utils';
+import mocks from './utils/mocks';
 
 const CWD = process.cwd();
 const ORIG_EXEC_PATH = shell.config.execPath;
 shell.config.silent = true;
 
+test.beforeEach(() => {
+  mocks.init();
+});
+
 test.afterEach.always(() => {
   process.chdir(CWD);
   shell.config.execPath = ORIG_EXEC_PATH;
+  mocks.restore();
 });
 
 //
@@ -85,6 +91,14 @@ test('check if stdout + stderr go to output', t => {
   t.is(result.stderr, '1234\n');
 });
 
+test('check if stdout + stderr should not be printed to console if silent', t => {
+  shell.exec(`${JSON.stringify(shell.config.execPath)} -e "console.error(1234); console.log(666); process.exit(12);"`, { silent: true });
+  const stdout = mocks.stdout();
+  const stderr = mocks.stderr();
+  t.is(stdout, '');
+  t.is(stderr, '');
+});
+
 test('check exit code', t => {
   const result = shell.exec(`${JSON.stringify(shell.config.execPath)} -e "process.exit(12);"`);
   t.truthy(shell.error());
@@ -119,8 +133,12 @@ test('set maxBuffer (very small)', t => {
   t.falsy(shell.error());
   t.is(result.code, 0);
   t.is(result.stdout, '1234567890' + os.EOL);
-  shell.exec('echo 1234567890', { maxBuffer: 6 });
+  const result2 = shell.exec('echo 1234567890', { maxBuffer: 6 });
   t.truthy(shell.error());
+  t.is(result2.code, 1);
+  t.is(result2.stdout, '1234567890' + os.EOL);
+  const maxBufferErrorPattern = /.*\bmaxBuffer\b.*\bexceeded\b.*/;
+  t.regex(result2.stderr, maxBufferErrorPattern);
 });
 
 test('set timeout option', t => {

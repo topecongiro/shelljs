@@ -99,8 +99,7 @@ function cpdirSyncRecursive(sourceDir, destDir, currentDepth, opts) {
   // Create the directory where all our junk is moving to; read the mode of the
   // source directory and mirror it
   try {
-    var checkDir = common.statFollowLinks(sourceDir);
-    fs.mkdirSync(destDir, checkDir.mode);
+    fs.mkdirSync(destDir);
   } catch (e) {
     // if the directory already exists, that's okay
     if (e.code !== 'EEXIST') throw e;
@@ -151,6 +150,11 @@ function cpdirSyncRecursive(sourceDir, destDir, currentDepth, opts) {
       }
     }
   } // for files
+
+  // finally change the mode for the newly created directory (otherwise, we
+  // couldn't add files to a read-only directory).
+  var checkDir = common.statFollowLinks(sourceDir);
+  fs.chmodSync(destDir, checkDir.mode);
 } // cpdirSyncRecursive
 
 // Checks if cureent file was created recently
@@ -256,7 +260,7 @@ function _cp(options, sources, dest) {
 
         try {
           common.statFollowLinks(path.dirname(dest));
-          cpdirSyncRecursive(src, newDest, 0, { no_force: options.no_force, followsymlink: options.followsymlink });
+          cpdirSyncRecursive(src, newDest, 0, { no_force: options.no_force, followsymlink: options.followsymlink, update: options.update });
         } catch (e) {
           /* istanbul ignore next */
           common.error("cannot create directory '" + dest + "': No such file or directory");

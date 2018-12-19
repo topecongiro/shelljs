@@ -7,6 +7,7 @@ common.register('grep', _grep, {
   cmdOptions: {
     'v': 'inverse',
     'l': 'nameOnly',
+    'i': 'ignoreCase',
   },
 });
 
@@ -17,7 +18,8 @@ common.register('grep', _grep, {
 //@ Available options:
 //@
 //@ + `-v`: Invert `regex_filter` (only print non-matching lines).
-//@ + `-l`: Print only filenames of matching files
+//@ + `-l`: Print only filenames of matching files.
+//@ + `-i`: Ignore case.
 //@
 //@ Examples:
 //@
@@ -41,6 +43,9 @@ function _grep(options, regex, files) {
   }
 
   var grep = [];
+  if (options.ignoreCase) {
+    regex = new RegExp(regex, 'i');
+  }
   files.forEach(function (file) {
     if (!fs.existsSync(file) && file !== '-') {
       common.error('no such file or directory: ' + file, 2, { continue: true });
@@ -63,6 +68,10 @@ function _grep(options, regex, files) {
     }
   });
 
+  if (grep.length === 0 && common.state.errorCode !== 2) {
+    // We didn't hit the error above, but pattern didn't match
+    common.error('', { silent: true });
+  }
   return grep.join('\n') + '\n';
 }
 module.exports = _grep;

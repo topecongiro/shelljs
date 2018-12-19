@@ -1,6 +1,5 @@
 # ShellJS - Unix shell commands for Node.js
 
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/shelljs/shelljs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Travis](https://img.shields.io/travis/shelljs/shelljs/master.svg?style=flat-square&label=unix)](https://travis-ci.org/shelljs/shelljs)
 [![AppVeyor](https://img.shields.io/appveyor/ci/shelljs/shelljs/master.svg?style=flat-square&label=windows)](https://ci.appveyor.com/project/shelljs/shelljs/branch/master)
 [![Codecov](https://img.shields.io/codecov/c/github/shelljs/shelljs/master.svg?style=flat-square&label=coverage)](https://codecov.io/gh/shelljs/shelljs)
@@ -13,7 +12,7 @@ script's dependency on Unix while still keeping its familiar and powerful
 commands. You can also install it globally so you can run it from outside Node
 projects - say goodbye to those gnarly Bash scripts!
 
-ShellJS is proudly tested on every node release since `v4`!
+ShellJS is proudly tested on every node release since <!-- start minVersion -->`v6`<!-- stop minVersion -->!
 
 The project is [unit-tested](http://travis-ci.org/shelljs/shelljs) and battle-tested in projects like:
 
@@ -362,7 +361,8 @@ include the base directories (e.g., `lib/resources/file1` instead of just `file1
 Available options:
 
 + `-v`: Invert `regex_filter` (only print non-matching lines).
-+ `-l`: Print only filenames of matching files
++ `-l`: Print only filenames of matching files.
++ `-i`: Ignore case.
 
 Examples:
 
