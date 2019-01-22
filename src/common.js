@@ -329,7 +329,7 @@ exports.randomFileName = randomFileName;
 // command-logging, and other nice things
 function wrap(cmd, fn, options) {
   options = options || {};
-  return function () {
+  var ret = function () {
     var retValue = null;
 
     state.currentCmd = cmd;
@@ -426,6 +426,8 @@ function wrap(cmd, fn, options) {
     state.currentCmd = 'shell.js';
     return retValue;
   };
+  ret._options = options.cmdOptions;
+  return ret;
 } // wrap
 exports.wrap = wrap;
 

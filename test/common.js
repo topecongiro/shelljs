@@ -339,3 +339,16 @@ test('CommandError is a subclass of Error', t => {
   t.truthy(e instanceof Error);
   t.is(e.constructor, common.CommandError);
 });
+
+test('Commands expose their options as attributes', t => {
+  const opts = Object.keys(shell.cp._options);
+  t.deepEqual(opts.sort(), [
+    'f',
+    'n',
+    'u',
+    'r',
+    'R',
+    'L',
+    'P',
+  ].sort());
+});
