@@ -264,7 +264,7 @@ function _cp(options, sources, dest) {
           cpdirSyncRecursive(src, newDest, 0, { no_force: options.no_force, followsymlink: options.followsymlink, update: options.update });
         } catch (e) {
           /* istanbul ignore next */
-          common.error("cannot create directory '" + dest + "': No such file or directory");
+          common.error("cannot create directory '" + newDest + "': No such file or directory");
         }
       }
     } else {
